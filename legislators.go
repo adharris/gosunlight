@@ -1,6 +1,7 @@
 package gosunlight
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"reflect"
@@ -63,6 +64,8 @@ type Legislator struct {
 	FaceBookID       string `json:"facebook_id"`
 	SenateClass      string `json:"senate_class"`
 	BirthDate        string `json:"birthdate"`
+
+	committees []*Committee
 }
 
 // String implements fmt.Stringer for Legislators. The Legislator is formatted
@@ -211,6 +214,24 @@ func LegislatorsForLatLong(latitude, longitude float64) ([]*Legislator, error) {
 		return nil, err
 	}
 	return r.slice(), nil
+}
+
+// Committees gets a list of the committees and subcommittees that this
+// legislator is a part of.  This is a wrapper around CommitteesForLegislator.
+// The first call to Committees will block while the committees are fetched
+// from sunlight.  Subsequent calls return a cached list.
+func (l Legislator) Committees() ([]*Committee, error) {
+	if l.committees == nil {
+		if l.BioguideID == "" {
+			return nil, errors.New("BioguideId missing for legislator.")
+		}
+		committees, err := CommitteesForLegislator(l.BioguideID)
+		if err != nil {
+			return nil, err
+		}
+		l.committees = committees
+	}
+	return l.committees, nil
 }
 
 // Various types used to unmarshal JSON from sunlight.  These

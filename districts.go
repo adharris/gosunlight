@@ -1,6 +1,7 @@
 package gosunlight
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -18,6 +19,9 @@ func init() {
 type District struct {
 	State  string `json:"state"`
 	Number string `json:"number"`
+
+	rep      *Legislator
+	senators []*Legislator
 }
 
 // String implements fmt.Stringer for Districts
@@ -68,6 +72,40 @@ func districtFromLatLong(latitude, longitude float64, districts int) (*District,
 		return nil, err
 	}
 	return response.districtSlice()[0], nil
+}
+
+// Representative returns the house of representatives member for a given
+// district.  This function will block while the data is fetched from
+// sunlight.  Subsequent calls return a cached value.
+func (d *District) Representative() (*Legislator, error) {
+	if d.rep == nil {
+		if d.State == "" || d.Number == "" {
+			return nil, errors.New("State or number missing from district; cannot get legislators")
+		}
+		legislator, err := LegislatorGet(Legislator{State: d.State, District: d.Number})
+		if err != nil {
+			return nil, err
+		}
+		d.rep = legislator
+	}
+	return d.rep, nil
+}
+
+// Senators return the senators for a given district.  This function will
+// block while the data is fetched from sunlight.  Subsequent calls return
+// a cached value.
+func (d *District) Sentators() ([]*Legislator, error) {
+	if d.senators == nil {
+		if d.State == "" {
+			return nil, errors.New("State missing from district; cannot get senators")
+		}
+		legislators, err := LegislatorGetList(Legislator{Title: "Sen", State: d.State})
+		if err != nil {
+			return nil, err
+		}
+		d.senators = legislators
+	}
+	return d.senators, nil
 }
 
 type districtResponse struct {

@@ -66,7 +66,7 @@ func newSunlightAPI(api, method string) sunlightAPI {
 	return sunlightAPI{
 		api:    api,
 		method: method,
-		rawURL: fmt.Sprintf("%s%s.%s.json?apikey=%s", sunlightURL, api, method, SunlightKey),
+		rawURL: fmt.Sprintf("%s%s.%s.json", sunlightURL, api, method),
 	}
 }
 
@@ -76,6 +76,7 @@ func (api sunlightAPI) get(v interface{}, params ...paramable) error {
 
 	fullURL, _ := url.Parse(api.rawURL)
 	query := fullURL.Query()
+	query.Add("apikey", SunlightKey)
 	for _, p := range params {
 		p.addTo(&query)
 	}

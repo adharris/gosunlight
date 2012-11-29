@@ -6,11 +6,9 @@ import (
 )
 
 func TestAPI(t *testing.T) {
-	// match := Legislator{FirstName: "John"}
-	reps, err := LegislatorsForZip("02144")
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(reps)
+	districts, err := DistrictsFromLatLong(35.778788, -78.787805)
+	fmt.Println(err)
+	for _, d := range districts {
+		fmt.Println(d)
 	}
 }

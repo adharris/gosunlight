@@ -6,9 +6,15 @@ import (
 )
 
 func TestAPI(t *testing.T) {
-	districts, err := DistrictsFromLatLong(35.778788, -78.787805)
+	// districts, err := DistrictsFromLatLong(35.778788, -78.787805)
+
+	com, err := CommitteeGetList("Senate")
 	fmt.Println(err)
-	for _, d := range districts {
-		fmt.Println(d)
+	for _, c := range com {
+		fmt.Println(c)
+		for _, sc := range c.Subcommittees {
+			fmt.Printf("  %v\n", sc)
+		}
 	}
+
 }

@@ -1,3 +1,14 @@
+// Package gosunlight is an implementation of the Sunlight labs API
+// See http://services.sunlightlabs.com/
+//
+// To use any of the functions included, a SunlightLabs API key must
+// provided.  API keys can be acquired at
+// http://services.sunlightlabs.com/accounts/register/
+//
+// To provide the Sunlight API Key to go sunlight, simply set
+// gosunlight.SunlightKey to your API key.  If no key is provided,
+// gosunlight will attempt to load the sunlight key from the OS
+// environment variable SUNLIGHT_KEY.
 package gosunlight
 
 import (

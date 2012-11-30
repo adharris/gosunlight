@@ -74,6 +74,10 @@ func newSunlightAPI(api, method string) sunlightAPI {
 // the v parameter
 func (api sunlightAPI) get(v interface{}, params ...paramable) error {
 
+	if SunlightKey == "" {
+		return errors.New("Sunlight API key not set")
+	}
+
 	fullURL, _ := url.Parse(api.rawURL)
 	query := fullURL.Query()
 	query.Add("apikey", SunlightKey)

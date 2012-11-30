@@ -1,6 +1,7 @@
 package gosunlight
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -70,6 +71,20 @@ func CommitteesForLegislator(bioguideID string) ([]*Committee, error) {
 		return nil, err
 	}
 	return response.committees(), nil
+}
+
+// GetMembers is a convenience wrapper for CommitteeGet which populates
+// the Members field of a Committee.
+func (c *Committee) GetMembers() error {
+	if c.Id == "" {
+		return errors.New("Cannot get members of committee: missing id")
+	}
+	committee, err := CommitteeGet(c.Id)
+	if err != nil {
+		return err
+	}
+	c.Members = committee.Members
+	return nil
 }
 
 type committeeResponse struct {

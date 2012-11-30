@@ -96,9 +96,32 @@ func LegislatorGetAll(legislator Legislator) (*Legislator, error) {
 	return getLegislator(true, legislator)
 }
 
+// Get is a convenience wrapper for GetLegislator which loads a single legislator
+// in place, using fields that are set on the legislator as search parameters
+func (l *Legislator) Get() error {
+	var r legislatorResponse
+	r.Response.Legislator = l
+	err := legislatorApis.get.get(&r, l)
+	return err
+}
+
+// GetAll is a convenience wrapper for GetLegislatorAll which loads a single
+// legislator in place, using fields that are set on the legislator as search
+// parameters.  It searches all current and past legislators.
+func (l *Legislator) GetAll() error {
+	var r legislatorResponse
+	r.Response.Legislator = l
+	p := params{"all_legislators": 1}
+	return legislatorApis.get.get(&r, l, p)
+}
+
 func getLegislator(allLegislators bool, legislator Legislator) (*Legislator, error) {
 	var l legislatorResponse
-	err := legislatorApis.get.get(&l, legislator)
+	p := params{}
+	if allLegislators {
+		p["all_legislators"] = 1
+	}
+	err := legislatorApis.get.get(&l, legislator, p)
 	return l.Response.Legislator, err
 }
 

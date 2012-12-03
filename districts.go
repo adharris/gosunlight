@@ -24,6 +24,11 @@ type District struct {
 	senators []*Legislator
 }
 
+// String implements fmt.Stringer for districts
+func (district District) String() string {
+	return fmt.Sprintf("%v-%02v", district.State, district.Number)
+}
+
 // DistrictsFromZip returns a list of districts for a given zip code.  Because
 // a zip code may be in more than one district, this function may return
 // more than once district.

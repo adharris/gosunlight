@@ -68,6 +68,11 @@ type Legislator struct {
 	committees []*Committee
 }
 
+// String implements fmt.Stringer for legislators
+func (l Legislator) String() string {
+	return fmt.Sprintf("%v %v %v (%v %v)", l.Title, l.FirstName, l.LastName, l.Party, l.State)
+}
+
 // LegislatorGet gets a single legislator from Sunlight which matches fields
 // set in the legislator parameter.
 //

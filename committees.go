@@ -2,6 +2,7 @@ package gosunlight
 
 import (
 	"errors"
+	"fmt"
 )
 
 var committeeAPIS struct {
@@ -23,6 +24,11 @@ type Committee struct {
 	Name          string `json:"name"`
 	Members       []*Legislator
 	Subcommittees []*Committee
+}
+
+//Implements fmt.Stringer for committees
+func (committee Committee) String() string {
+	return fmt.Sprintf("%7v %v %v", committee.Chamber, committee.Id, committee.Name)
 }
 
 // CommitteeGetList returns a list of committees and their subcommittees

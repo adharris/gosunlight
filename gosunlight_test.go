@@ -6,14 +6,10 @@ import (
 )
 
 func TestAPI(t *testing.T) {
-	districts, _ := DistrictsFromZip("02144")
-	for _, d := range districts {
-		fmt.Println(d)
-		rep, _ := d.Representative()
-		fmt.Printf("  %v\n", rep)
-		sens, _ := d.Sentators()
-		for _, s := range sens {
-			fmt.Printf("  %v\n", s)
-		}
+	nancy := Legislator{FirstName: "Nancy", LastName: "Pelosi"}
+	err := nancy.Get()
+	if err != nil {
+		t.Error(err)
 	}
+	fmt.Println(nancy)
 }

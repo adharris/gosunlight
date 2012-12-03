@@ -68,14 +68,6 @@ type Legislator struct {
 	committees []*Committee
 }
 
-// String implements fmt.Stringer for Legislators. The Legislator is formatted
-// with title, first name, last name, party, and state
-//
-//   Example: "Sen John Kerry (D MA)"
-func (l Legislator) String() string {
-	return fmt.Sprintf("%s %s %s (%s %s)", l.Title, l.FirstName, l.LastName, l.Party, l.State)
-}
-
 // LegislatorGet gets a single legislator from Sunlight which matches fields
 // set in the legislator parameter.
 //

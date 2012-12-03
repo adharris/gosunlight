@@ -26,11 +26,6 @@ type Committee struct {
 	Subcommittees []*Committee
 }
 
-// String implements fmt.String for Committees
-func (c Committee) String() string {
-	return fmt.Sprintf("%v-%v: %v", c.Chamber, c.Id, c.Name)
-}
-
 // CommitteeGetList returns a list of committees and their subcommittees
 // for a given chamber
 //

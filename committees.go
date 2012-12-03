@@ -2,7 +2,6 @@ package gosunlight
 
 import (
 	"errors"
-	"fmt"
 )
 
 var committeeAPIS struct {

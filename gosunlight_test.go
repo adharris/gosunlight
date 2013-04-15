@@ -6,10 +6,11 @@ import (
 )
 
 func TestAPI(t *testing.T) {
-	nancy := Legislator{FirstName: "Nancy", LastName: "Pelosi"}
-	err := nancy.Get()
+	nancy := Legislator{BioguideID: "B001268"}
+	nancy2 := Legislator{BioguideID: "Q000024"}
+	l, err := LegislatorGetListAll(&nancy, &nancy2)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Println(nancy)
+	fmt.Println(nancy, l)
 }

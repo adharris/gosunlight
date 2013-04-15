@@ -130,7 +130,7 @@ func getLegislator(allLegislators bool, legislator Legislator) (*Legislator, err
 // This function only matches legislators who are in office currently.
 //
 // See http://services.sunlightlabs.com/docs/congressapi/legislators.get(List)/
-func LegislatorGetList(legislators ...Legislator) ([]*Legislator, error) {
+func LegislatorGetList(legislators ...*Legislator) ([]*Legislator, error) {
 	return getLegislators(false, legislators...)
 }
 
@@ -142,11 +142,11 @@ func LegislatorGetList(legislators ...Legislator) ([]*Legislator, error) {
 // This function matches both current and past legislators
 //
 // See http://services.sunlightlabs.com/docs/congressapi/legislators.get(List)/
-func LegislatorGetListAll(legislators ...Legislator) ([]*Legislator, error) {
+func LegislatorGetListAll(legislators ...*Legislator) ([]*Legislator, error) {
 	return getLegislators(true, legislators...)
 }
 
-func getLegislators(allLegislators bool, legislators ...Legislator) ([]*Legislator, error) {
+func getLegislators(allLegislators bool, legislators ...*Legislator) ([]*Legislator, error) {
 	var r legislatorsResponse
 	p := params{}
 	if allLegislators {
@@ -299,7 +299,7 @@ func (lsr legislatorSearchResponse) slice() []*Legislator {
 }
 
 //Implementing paramable for a slice of legislators
-type legislatorSlice []Legislator
+type legislatorSlice []*Legislator
 
 func (ls legislatorSlice) addTo(query *url.Values) {
 	for _, l := range ls {

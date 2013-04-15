@@ -99,7 +99,7 @@ func (d *District) Sentators() ([]*Legislator, error) {
 		if d.State == "" {
 			return nil, errors.New("State missing from district; cannot get senators")
 		}
-		legislators, err := LegislatorGetList(Legislator{Title: "Sen", State: d.State})
+		legislators, err := LegislatorGetList(&Legislator{Title: "Sen", State: d.State})
 		if err != nil {
 			return nil, err
 		}

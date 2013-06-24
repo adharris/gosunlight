@@ -96,6 +96,7 @@ func (api sunlightAPI) get(v interface{}, params ...paramable) error {
 		return errors.New(string(errorMessage))
 	} else {
 		decoder := json.NewDecoder(res.Body)
+		defer res.Body.Close()
 		err = decoder.Decode(&v)
 		if err != nil {
 			return err
